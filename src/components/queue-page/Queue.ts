@@ -13,9 +13,9 @@ interface IQueue<T> {
 
 class Queue<T> implements IQueue<T> {
     private container: T[] = [];
-    private head = 0;
-    private tail = 0;
-    private tailIndex = 0;
+    private head: number = 0;
+    private tail: number = 0;
+    private tailIndex: number = 0;
     private readonly size: number = 0;
     private length: number = 0;
 
@@ -24,7 +24,7 @@ class Queue<T> implements IQueue<T> {
         this.container = Array(size).fill("");
     }
 
-    enqueue = (item: T) => {
+    enqueue = (item: T): void => {
         if (this.length >= this.size) {
             throw new Error("Maximum length exceeded");
         } else {
@@ -35,7 +35,7 @@ class Queue<T> implements IQueue<T> {
         }
     };
 
-    dequeue = () => {
+    dequeue = (): void => {
         if (this.isEmpty()) {
             throw new Error("No elements in the queue");
         } else {
@@ -56,9 +56,9 @@ class Queue<T> implements IQueue<T> {
         }
     };
 
-    isEmpty = () => this.length === 0;
+    isEmpty = (): boolean => this.length === 0;
 
-    isFull = () => this.length === this.size;
+    isFull = (): boolean => this.length === this.size;
 
     getElements = () => this.container;
 
@@ -68,7 +68,7 @@ class Queue<T> implements IQueue<T> {
 
     getTailIndex = (): number => this.tailIndex;
 
-    clear = () => {
+    clear = (): void => {
         this.container = Array(this.size).fill("");
         this.length = 0;
         this.head = 0;
@@ -77,4 +77,4 @@ class Queue<T> implements IQueue<T> {
     };
 }
 
-export const queue = new Queue<string>(7);
+export const queue: Queue<string> = new Queue<string>(7);

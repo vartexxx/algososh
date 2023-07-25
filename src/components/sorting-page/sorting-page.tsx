@@ -1,27 +1,39 @@
+import {nanoid} from "nanoid";
 import {ChangeEvent, FC, useState} from "react";
-import {SolutionLayout} from "../ui/solution-layout/solution-layout";
-import {ElementStates, SortTypes} from "../../types/element-states";
-import {Direction} from "../../types/direction";
-import {setDelay} from "../../utils/utils";
 import {SHORT_DELAY_IN_MS} from "../../constants/delays";
-import styles from './sorting-page.module.css';
-import {RadioInput} from "../ui/radio-input/radio-input";
+import {Direction} from "../../types/direction";
+import {ElementStates, SortTypes} from "../../types/element-states";
+import {setDelay} from "../../utils/utils";
 import {Button} from "../ui/button/button";
 import {Column} from "../ui/column/column";
-import {nanoid} from "nanoid";
+import {RadioInput} from "../ui/radio-input/radio-input";
+import {SolutionLayout} from "../ui/solution-layout/solution-layout";
+import styles from './sorting-page.module.css';
+
 
 export const SortingPage: FC = () => {
     const randomArr = (): SortTypes[] => {
-        const minLen = 3;
-        const maxLen = 17;
-        const len = Math.floor(Math.random() * (maxLen - minLen + 1)) + minLen;
+        const minLen: 3 = 3;
+        const maxLen: 17 = 17;
+        const len: number = Math.floor(Math.random() * (maxLen - minLen + 1)) + minLen;
         const arr: SortTypes[] = [];
-        for (let i = 0; i < len; i++) {
-            const randInt = Math.floor(Math.random() * 101);
+        for (let i: number = 0; i < len; i++) {
+            const randInt: number = Math.floor(Math.random() * 101);
             arr.push({ index: randInt, state: ElementStates.Default });
         }
         return arr;
     }
+    const swap = (
+        value: SortTypes[],
+        firstItem: number,
+        secondItem: number
+    ): [SortTypes, SortTypes] => {
+        return ([value[firstItem], value[secondItem]] = [
+            value[secondItem],
+            value[firstItem],
+        ]);
+    };
+
     const [radioSelect, setRadioSelect] = useState('select');
     const [loader, setLoader] = useState({
         ascending: false,
@@ -30,53 +42,33 @@ export const SortingPage: FC = () => {
     });
     const [array, setArray] = useState<SortTypes[]>(randomArr());
 
-    const getNewArray = () => {
+    const getNewArray = (): void => {
         setArray(randomArr());
     };
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
         setRadioSelect(e.target.value);
     };
-    const swap = (
-        value: SortTypes[],
-        firstItem: number,
-        secondItem: number
-    ) => {
-        return ([value[firstItem], value[secondItem]] = [
-            value[secondItem],
-            value[firstItem],
-        ]);
-    };
 
-    const handleSort = (order: Direction) => {
-        if (radioSelect === "select") {
-            selectionSort(array, order);
-        } else {
-            bubbleSort(array, order);
-        }
-    };
-    const selectionSort = async (arr: SortTypes[], order: Direction) => {
+    const selectionSort = async (arr: SortTypes[], order: Direction): Promise<void> => {
         if (order === Direction.Ascending) {
             setLoader({ ...loader, loader: true, ascending: true });
         } else {
             setLoader({ ...loader, loader: true, descending: true });
         }
-        const { length } = arr;
-        for (let i = 0; i < length; i++) {
-            let maxInd = i;
+        const { length }: SortTypes[] = arr;
+        for (let i: number = 0; i < length; i++) {
+            let maxInd: number = i;
             arr[maxInd].state = ElementStates.Changing;
-            for (let j = i + 1; j < length; j++) {
+            for (let j: number = i + 1; j < length; j++) {
                 arr[j].state = ElementStates.Changing;
                 setArray([...arr]);
                 await setDelay(SHORT_DELAY_IN_MS);
                 if (
-                    order === Direction.Ascending
-                        ? arr[j].index < arr[maxInd].index
-                        : arr[j].index > arr[maxInd].index
+                    order === Direction.Ascending  ? arr[j].index < arr[maxInd].index : arr[j].index > arr[maxInd].index
                 ) {
                     maxInd = j;
                     arr[j].state = ElementStates.Changing;
-                    arr[maxInd].state =
-                        i === maxInd ? ElementStates.Changing : ElementStates.Default;
+                    arr[maxInd].state =  i === maxInd ? ElementStates.Changing : ElementStates.Default;
                 }
                 if (j !== maxInd) {
                     array[j].state = ElementStates.Default;
@@ -91,15 +83,15 @@ export const SortingPage: FC = () => {
         setLoader({ loader: false, descending: false, ascending: false });
     };
 
-    const bubbleSort = async (arr: SortTypes[], order: Direction) => {
+    const bubbleSort = async (arr: SortTypes[], order: Direction): Promise<void> => {
         if (order === Direction.Ascending) {
             setLoader({ ...loader, loader: true, ascending: true });
         } else {
             setLoader({ ...loader, loader: true, descending: true });
         }
-        const { length } = arr;
-        for (let i = 0; i < length; i++) {
-            for (let j = 0; j < length - i - 1; j++) {
+        const { length }: SortTypes[] = arr;
+        for (let i: number = 0; i < length; i++) {
+            for (let j: number = 0; j < length - i - 1; j++) {
                 arr[j].state = ElementStates.Changing;
                 arr[j + 1].state = ElementStates.Changing;
                 setArray([...array]);
@@ -117,10 +109,18 @@ export const SortingPage: FC = () => {
         setLoader({ loader: false, descending: false, ascending: false });
     };
 
+    const handleSort = (order: Direction): void => {
+        if (radioSelect === "select") {
+            selectionSort(array, order);
+        } else {
+            bubbleSort(array, order);
+        }
+    };
+
     return (
         <SolutionLayout title="Сортировка массива">
             <div className={styles.form}>
-                <div className={styles.form__radioButtons}>
+                <div className={styles.radio}>
                     <RadioInput
                         label="Выбор"
                         name="sortType"
@@ -137,7 +137,7 @@ export const SortingPage: FC = () => {
                         disabled={loader.loader}
                     />
                 </div>
-                <div className={styles.form__buttons}>
+                <div className={styles.buttons}>
                     <Button
                         text="По возрастанию"
                         sorting={Direction.Ascending}
@@ -161,7 +161,7 @@ export const SortingPage: FC = () => {
                     />
                 </div>
             </div>
-            <ul className={styles.symbolList}>
+            <ul className={styles.list}>
                 {array ? array.map((item: SortTypes) => {
                     return (
                         <Column key={nanoid()} index={item.index} state={item.state}/>

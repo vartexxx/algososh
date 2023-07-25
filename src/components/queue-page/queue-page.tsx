@@ -1,18 +1,19 @@
-import { ChangeEvent, FC, useState } from "react";
-import style from "./queue-page.module.css";
-import { SolutionLayout } from "../ui/solution-layout/solution-layout";
-import { Input } from "../ui/input/input";
-import { Button } from "../ui/button/button";
-import { Circle } from "../ui/circle/circle";
-import { nanoid } from "nanoid";
-import { queue } from "./Queue";
+import {nanoid} from "nanoid";
+import {ChangeEvent, FC, useState} from "react";
+import {SHORT_DELAY_IN_MS} from "../../constants/delays";
+import {HEAD, TAIL} from "../../constants/element-captions";
+import {ElementStates} from "../../types/element-states";
 import {setDelay} from "../../utils/utils";
-import { ElementStates } from "../../types/element-states";
-import { SHORT_DELAY_IN_MS } from "../../constants/delays";
-import { TAIL, HEAD } from "../../constants/element-captions";
+import {Button} from "../ui/button/button";
+import {Circle} from "../ui/circle/circle";
+import {Input} from "../ui/input/input";
+import {SolutionLayout} from "../ui/solution-layout/solution-layout";
+import {queue} from "./Queue";
+import style from "./queue-page.module.css";
+
 
 export const QueuePage: FC = () => {
-    const [inputValue, setInputValue] = useState("");
+    const [input, setInput] = useState('');
     const [array, setArray] = useState<string[]>(queue.getElements());
     const [currIndex, setCurrIndex] = useState<number | null>(null);
     const [loader, setLoader] = useState({
@@ -22,21 +23,21 @@ export const QueuePage: FC = () => {
     });
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value);
+        setInput(e.target.value);
     };
 
-    const addElement = async () => {
+    const addElement = async (): Promise<void> => {
         setLoader({ ...loader, add: true });
         setCurrIndex(queue.getTail());
         await setDelay(SHORT_DELAY_IN_MS);
-        queue.enqueue(inputValue);
+        queue.enqueue(input);
         setArray([...queue.getElements()]);
-        setInputValue("");
+        setInput("");
         setCurrIndex(null);
         setLoader({ ...loader, add: false });
     };
 
-    const deleteElement = async () => {
+    const deleteElement = async (): Promise<void> => {
         setLoader({ ...loader, delete: true });
         setCurrIndex(queue.getHead());
         await setDelay(SHORT_DELAY_IN_MS);
@@ -49,7 +50,7 @@ export const QueuePage: FC = () => {
         setLoader({ ...loader, delete: false });
     };
 
-    const clearElements = async () => {
+    const clearElements = async (): Promise<void> => {
         setLoader({ ...loader, clear: true });
         await setDelay(SHORT_DELAY_IN_MS);
         queue.clear();
@@ -62,53 +63,49 @@ export const QueuePage: FC = () => {
             <div className={style.form}>
                 <Input
                     maxLength={4}
-                    isLimitText
                     onChange={onChange}
-                    value={inputValue}
+                    value={input}
                     disabled={queue.isFull()}
+                    isLimitText
                 />
                 <Button
-                    text="Добавить"
-                    type="button"
                     onClick={addElement}
                     isLoader={loader.add}
-                    disabled={!inputValue || queue.isFull()}
+                    disabled={!input || queue.isFull()}
+                    text="Добавить"
+                    type="button"
                 />
                 <Button
-                    text="Удалить"
-                    type="button"
                     onClick={deleteElement}
                     isLoader={loader.delete}
                     disabled={queue.isEmpty()}
+                    text="Удалить"
+                    type="button"
                 />
                 <Button
-                    text="Очистить"
-                    type="button"
                     onClick={clearElements}
                     extraClass={style.button}
                     isLoader={loader.clear}
                     disabled={queue.isEmpty()}
+                    text="Очистить"
+                    type="button"
                 />
             </div>
-            <ul className={style.symbolList}>
-                {array?.map((element, index) => {
+            <ul className={style.list}>
+                {array?.map((element: string, index: number) => {
                     return (
                         <Circle
                             key={nanoid()}
                             index={index}
                             letter={element}
                             state={
-                                index === currIndex
-                                    ? ElementStates.Changing
-                                    : ElementStates.Default
+                                index === currIndex  ? ElementStates.Changing : ElementStates.Default
                             }
                             head={
-                                index === queue.getHead() && !queue.isEmpty() ? HEAD : ""
+                                index === queue.getHead() && !queue.isEmpty() ? HEAD : ''
                             }
                             tail={
-                                index === queue.getTailIndex() && !queue.isEmpty()
-                                    ? TAIL
-                                    : ""
+                                index === queue.getTailIndex() && !queue.isEmpty()  ? TAIL : ''
                             }
                         />
                     );

@@ -5,13 +5,13 @@
     gap: 12px;
 }
 
-.symbolList {
-    max-width: 944px;
-    margin: 0 auto;
-    padding: 48px 0 0 0;
+.list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    max-width: 944px;
+    margin: 0 auto;
+    padding-top: 48px;
     row-gap: 78px;
     column-gap: 16px;
 }

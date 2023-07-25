@@ -5,19 +5,19 @@
     gap: 52px;
 }
 
-.form__radioButtons {
+.radio {
     display: flex;
     align-items: center;
     gap: 40px;
 }
 
-.form__buttons {
+.buttons {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-.form__buttons > button:last-child {
+.buttons > button:last-child {
     margin-left: 80px;
 }
 
@@ -25,7 +25,7 @@
     width: 205px;
 }
 
-.symbolList {
+.list {
     margin: 0;
     height: 340px;
     padding: 48px 0 0 0;

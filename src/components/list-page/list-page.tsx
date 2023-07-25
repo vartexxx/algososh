@@ -1,18 +1,18 @@
-import {ChangeEvent, FC, useState} from "react";
 import {nanoid} from "nanoid";
-import style from "./list-page.module.css";
-import {SolutionLayout} from "../ui/solution-layout/solution-layout";
-import {Input} from "../ui/input/input";
-import {Button} from "../ui/button/button";
-import {linkedList, NodeType} from "./List";
-import {ArrowIcon} from "../ui/icons/arrow-icon";
-import {Circle} from "../ui/circle/circle";
-import {setDelay} from "../../utils/utils";
+import {ChangeEvent, FC, useState} from "react";
 import {SHORT_DELAY_IN_MS} from "../../constants/delays";
 import {CirclePosition, CircleState, ElementStates} from "../../types/element-states";
+import {setDelay} from "../../utils/utils";
+import {Button} from "../ui/button/button";
+import {Circle} from "../ui/circle/circle";
+import {ArrowIcon} from "../ui/icons/arrow-icon";
+import {Input} from "../ui/input/input";
+import {SolutionLayout} from "../ui/solution-layout/solution-layout";
+import {linkedList, NodeType} from "./List";
+import style from "./list-page.module.css";
+
 
 export const ListPage: FC = () => {
-
     const setCircleState = (
         index: number,
         circleState: CircleState

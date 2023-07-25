@@ -1,24 +1,24 @@
-import {ChangeEvent, FC, FormEvent, useState} from "react";
 import {nanoid} from "nanoid";
-import style from "./string.module.css";
-import {SolutionLayout} from "../ui/solution-layout/solution-layout";
-import {Input} from "../ui/input/input";
+import {ChangeEvent, FC, FormEvent, useState} from "react";
+import {DELAY_IN_MS} from "../../constants/delays";
+import {ElementStates, ElementTypes} from "../../types/element-states";
+import {setDelay} from "../../utils/utils";
 import {Button} from "../ui/button/button";
 import {Circle} from "../ui/circle/circle";
-import {DELAY_IN_MS} from "../../constants/delays";
-import {ElementTypes} from "../../types/element-states";
-import {ElementStates} from "../../types/element-states";
-import {setDelay} from "../../utils/utils";
+import {Input} from "../ui/input/input";
+import {SolutionLayout} from "../ui/solution-layout/solution-layout";
+import style from "./string.module.css";
 
-const swap = (
-    value: ElementTypes[],
-    firstItem: number,
-    secondItem: number
-): [ElementTypes, ElementTypes] => {
-    return ([value[firstItem], value[secondItem]] = [value[secondItem], value[firstItem],])
-};
 
 export const StringComponent: FC = () => {
+    const swap = (
+        value: ElementTypes[],
+        firstItem: number,
+        secondItem: number
+    ): [ElementTypes, ElementTypes] => {
+        return ([value[firstItem], value[secondItem]] = [value[secondItem], value[firstItem],])
+    };
+
     const [input, setInput] = useState('');
     const [loader, setLoader] = useState(false);
     const [array, setArray] = useState<Array<ElementTypes>>();

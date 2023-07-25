@@ -1,17 +1,18 @@
-import { ChangeEvent, FC, useState } from "react";
-import { nanoid } from "nanoid";
-import style from "./stack-page.module.css";
-import { SolutionLayout } from "../ui/solution-layout/solution-layout";
-import { Input } from "../ui/input/input";
-import { Button } from "../ui/button/button";
-import { stack } from "./Stack";
-import { Circle } from "../ui/circle/circle";
-import { ElementStates } from "../../types/element-states";
+import {nanoid} from "nanoid";
+import {ChangeEvent, FC, useState} from "react";
+import {SHORT_DELAY_IN_MS} from "../../constants/delays";
+import {ElementStates} from "../../types/element-states";
 import {setDelay} from "../../utils/utils";
-import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import {Button} from "../ui/button/button";
+import {Circle} from "../ui/circle/circle";
+import {Input} from "../ui/input/input";
+import {SolutionLayout} from "../ui/solution-layout/solution-layout";
+import {stack} from "./Stack";
+import style from "./stack-page.module.css";
+
 
 export const StackPage: FC = () => {
-    const [inputValue, setInputValue] = useState("");
+    const [input, setInput] = useState('');
     const [currIndex, setCurrIndex] = useState(0);
     const [loader, setLoader] = useState({
         add: false,
@@ -20,21 +21,21 @@ export const StackPage: FC = () => {
     });
     const [array, setArray] = useState<string[]>();
 
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value);
+    const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
+        setInput(e.target.value);
     };
 
-    const addElement = async () => {
+    const addElement = async (): Promise<void> => {
         setLoader({ ...loader, add: true });
-        stack.push(inputValue);
-        setInputValue("");
+        stack.push(input);
+        setInput('');
         setArray([...stack.getElements()]);
         await setDelay(SHORT_DELAY_IN_MS);
         setCurrIndex(currIndex + 1);
         setLoader({ ...loader, add: false });
     };
 
-    const deleteElement = async () => {
+    const deleteElement = async (): Promise<void> => {
         setLoader({ ...loader, delete: true });
         setCurrIndex(stack.getSize() - 1);
         await setDelay(SHORT_DELAY_IN_MS);
@@ -43,7 +44,7 @@ export const StackPage: FC = () => {
         setLoader({ ...loader, delete: false });
     };
 
-    const clearElements = async () => {
+    const clearElements = async (): Promise<void> => {
         setLoader({ ...loader, clear: true });
         await setDelay(SHORT_DELAY_IN_MS);
         stack.clear();
@@ -57,49 +58,47 @@ export const StackPage: FC = () => {
             <div className={style.form}>
                 <Input
                     maxLength={4}
-                    isLimitText
                     onChange={onChange}
-                    value={inputValue}
+                    value={input}
+                    isLimitText
                 />
                 <Button
-                    text="Добавить"
-                    type="button"
-                    disabled={!!!inputValue}
+                    disabled={!input}
                     onClick={addElement}
                     isLoader={loader.add}
+                    text="Добавить"
+                    type="button"
                 />
                 <Button
-                    text="Удалить"
-                    type="button"
                     disabled={currIndex === 0}
                     onClick={deleteElement}
                     isLoader={loader.delete}
+                    text="Удалить"
+                    type="button"
                 />
                 <Button
-                    text="Очистить"
-                    type="button"
                     disabled={currIndex === 0}
                     extraClass={style.button}
                     onClick={clearElements}
                     isLoader={loader.clear}
+                    text="Очистить"
+                    type="button"
                 />
             </div>
-            <ul className={style.symbolList}>
-                {array?.map((element, index) => {
+            <ul className={style.list}>
+                {array ? array.map((element: string, index: number) => {
                     return (
                         <Circle
                             key={nanoid()}
                             index={index}
                             letter={element}
                             state={
-                                index === currIndex
-                                    ? ElementStates.Changing
-                                    : ElementStates.Default
+                                index === currIndex ? ElementStates.Changing : ElementStates.Default
                             }
-                            head={stack.getSize() - 1 === index ? "top" : ""}
+                            head={stack.getSize() - 1 === index ? "top" : ''}
                         />
                     );
-                })}
+                }) : undefined}
             </ul>
         </SolutionLayout>
     );

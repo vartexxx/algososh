@@ -7,39 +7,38 @@ import {QueuePage} from "../queue-page/queue-page";
 import {StringComponent} from "../string/string";
 import {SortingPage} from "../sorting-page/sorting-page";
 import {StackPage} from "../stack-page/stack-page";
-
 import styles from './app.module.css';
 
 function App() {
-  return (
-    <div className={styles.app}>
-      <BrowserRouter>
-        <Switch>
-          <Route path="/" exact>
-            <MainPage />
-          </Route>
-          <Route path="/recursion">
-            <StringComponent />
-          </Route>
-          <Route path="/fibonacci">
-            <FibonacciPage />
-          </Route>
-          <Route path="/sorting">
-            <SortingPage />
-          </Route>
-          <Route path="/stack">
-            <StackPage />
-          </Route>
-          <Route path="/queue">
-            <QueuePage />
-          </Route>
-          <Route path="/list">
-            <ListPage />
-          </Route>
-        </Switch>
-      </BrowserRouter>
-    </div>
-  );
+    return (
+        <div className={styles.app}>
+            <BrowserRouter>
+                <Switch>
+                    <Route path="/" exact>
+                        <MainPage />
+                    </Route>
+                    <Route path="/recursion">
+                        <StringComponent />
+                    </Route>
+                    <Route path="/fibonacci">
+                        <FibonacciPage />
+                    </Route>
+                    <Route path="/sorting">
+                        <SortingPage />
+                    </Route>
+                    <Route path="/stack">
+                        <StackPage />
+                    </Route>
+                    <Route path="/queue">
+                        <QueuePage />
+                    </Route>
+                    <Route path="/list">
+                        <ListPage />
+                    </Route>
+                </Switch>
+            </BrowserRouter>
+        </div>
+    );
 }
 
 export default App;

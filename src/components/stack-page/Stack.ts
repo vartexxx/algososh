@@ -32,7 +32,7 @@ class Stack<T> implements IStack<T> {
 
     getElements = () => this.container;
 
-    clear = () => {
+    clear = (): void => {
         this.container = [];
     };
 }

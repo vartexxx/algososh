@@ -1,12 +1,13 @@
-import {ChangeEvent, FC, FormEvent, useState} from "react";
-import {SolutionLayout} from "../ui/solution-layout/solution-layout";
-import {setDelay} from "../../utils/utils";
-import {SHORT_DELAY_IN_MS} from "../../constants/delays";
-import {Input} from "../ui/input/input";
-import {Button} from "../ui/button/button";
-import styles from './fibonacci-page.module.css';
-import {Circle} from "../ui/circle/circle";
 import {nanoid} from "nanoid";
+import {ChangeEvent, FC, FormEvent, useState} from "react";
+import {SHORT_DELAY_IN_MS} from "../../constants/delays";
+import {setDelay} from "../../utils/utils";
+import {Button} from "../ui/button/button";
+import {Circle} from "../ui/circle/circle";
+import {Input} from "../ui/input/input";
+import {SolutionLayout} from "../ui/solution-layout/solution-layout";
+import styles from './fibonacci-page.module.css';
+
 
 export const FibonacciPage: FC = () => {
     const [input, setInput] = useState('');
@@ -34,6 +35,7 @@ export const FibonacciPage: FC = () => {
         setInput('');
         setLoader(false);
     };
+
     return (
         <SolutionLayout title="Последовательность Фибоначчи">
             <form className={styles.form} onSubmit={onSubmit}>

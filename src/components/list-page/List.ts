@@ -1,15 +1,3 @@
-function randomArr(min: number, max: number): string[] {
-    const minLen = min;
-    const maxLen = max;
-    const len = Math.floor(Math.random() * (maxLen - minLen + 1)) + minLen;
-    const arr: string[] = [];
-    for (let i = 0; i < len; i++) {
-        const randInt = Math.floor(Math.random() * 101);
-        arr.push(String(randInt));
-    }
-    return arr;
-}
-
 export type NodeType<T> = {
     val: T;
     next: NodeType<T> | null;
@@ -44,43 +32,44 @@ class LinkedList<T> implements ILinkedList<T> {
     constructor(values: T[] = []) {
         this.head = null;
         this.size = 0;
-        for (let val of values) {
+        let val: T;
+        for (val of values) {
             this.addToEnd(val);
         }
-    }
+    };
 
-    addToFront(val: T) {
-        const newNode = new ListNode(val);
+    addToFront(val: T): void {
+        const newNode: ListNode<T> = new ListNode(val);
         newNode.next = this.head;
         this.head = newNode;
         this.size++;
-    }
+    };
 
-    deleteAtFront() {
+    deleteAtFront(): void {
         if (this.head === null) {
             return;
         }
         this.head = this.head.next;
         this.size--;
-    }
+    };
 
-    addToEnd(val: T) {
-        const newNode = new ListNode(val);
+    addToEnd(val: T): void {
+        const newNode: ListNode<T> = new ListNode(val);
         if (this.head === null) {
             this.head = newNode;
             this.size++;
             return;
         }
 
-        let cur = this.head;
-        while (cur.next !== null) {
-            cur = cur.next;
+        let current: ListNode<T> = this.head;
+        while (current.next !== null) {
+            current = current.next;
         }
-        cur.next = newNode;
+        current.next = newNode;
         this.size++;
-    }
+    };
 
-    deleteAtEnd() {
+    deleteAtEnd(): void {
         if (this.head === null) {
             return;
         }
@@ -88,35 +77,35 @@ class LinkedList<T> implements ILinkedList<T> {
             this.head = null;
             return;
         }
-        let cur = this.head;
-        while (cur.next != null && cur.next.next != null) {
-            cur = cur.next;
+        let current: ListNode<T> = this.head;
+        while (current.next != null && current.next.next != null) {
+            current = current.next;
         }
-        cur.next = null;
+        current.next = null;
         this.size--;
-    }
+    };
 
-    addAtIndex(index: number, val: T) {
-        const newNode = new ListNode(val);
+    addAtIndex(index: number, val: T): void {
+        const newNode: ListNode<T> = new ListNode(val);
         if (index === 0) {
             newNode.next = this.head;
             this.head = newNode;
             return;
         }
 
-        let cur = this.head;
-        for (let i = 0; i < index - 1 && cur !== null; ++i) {
-            cur = cur.next;
+        let current: ListNode<T> | null = this.head;
+        for (let i: number = 0; i < index - 1 && current !== null; ++i) {
+            current = current.next;
         }
-        if (cur === null) {
+        if (current === null) {
             return;
         }
-        newNode.next = cur.next;
-        cur.next = newNode;
+        newNode.next = current.next;
+        current.next = newNode;
         this.size++;
-    }
+    };
 
-    deleteAtIndex(index: number) {
+    deleteAtIndex(index: number): void {
         if (this.head === null) {
             return;
         }
@@ -125,58 +114,68 @@ class LinkedList<T> implements ILinkedList<T> {
             return;
         }
 
-        let cur = this.head;
-        for (let i = 0; i < index - 1 && cur !== null; ++i) {
-            if (cur.next) cur = cur.next;
+        let current: ListNode<T> = this.head;
+        for (let i: number = 0; i < index - 1 && current !== null; ++i) {
+            if (current.next) current = current.next;
         }
-        if (cur === null || cur.next === null) {
+        if (current === null || current.next === null) {
             return;
         }
-        cur.next = cur.next.next;
+        current.next = current.next.next;
         this.size--;
-    }
+    };
 
-    getAtIndex(index: number) {
+    getAtIndex(index: number): ListNode<T> | null {
         let current: ListNode<T> | null = this.head;
-        let i = 0;
+        let i: number = 0;
         while (current !== null && i < index) {
             current = current.next;
             i++;
         }
         return current !== null && i === index ? current : null;
-    }
+    };
 
-    getFirst() {
+    getFirst(): ListNode<T> | null {
         if (this.head === null) {
             return null;
         }
         return this.head;
-    }
+    };
 
-    getLast() {
+    getLast(): ListNode<T> | null {
         if (this.head === null) {
             return null;
         }
-        let lastNode = this.head;
+        let lastNode: ListNode<T> = this.head;
         while (lastNode.next !== null) {
             lastNode = lastNode.next;
         }
         return lastNode;
-    }
+    };
 
-    getArray() {
-        const result = [];
-        let cur = this.head;
-        while (cur) {
-            result.push(cur);
-            cur = cur.next;
+    getArray(): ListNode<T>[] {
+        const result: any[] = [];
+        let current: ListNode<T> | null = this.head;
+        while (current) {
+            result.push(current);
+            current = current.next;
         }
         return result;
-    }
+    };
 
     getSize(): number {
         return this.size;
-    }
+    };
 }
 
-export const linkedList = new LinkedList<string>(randomArr(3, 4));
+const randomArr = (min: number, max: number): string[] => {
+    const len: number = Math.floor(Math.random() * (max - min + 1)) + min;
+    const arr: string[] = [];
+    for (let i: number = 0; i < len; i++) {
+        const randInt: number = Math.floor(Math.random() * 101);
+        arr.push(String(randInt));
+    }
+    return arr;
+};
+
+export const linkedList: LinkedList<string> = new LinkedList<string>(randomArr(3, 4));
