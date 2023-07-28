@@ -13,6 +13,7 @@ import style from "./queue-page.module.css";
 
 
 export const QueuePage: FC = () => {
+    const maxLength: 4 = 4;
     const [input, setInput] = useState('');
     const [array, setArray] = useState<string[]>(queue.getElements());
     const [currIndex, setCurrIndex] = useState<number | null>(null);
@@ -22,7 +23,7 @@ export const QueuePage: FC = () => {
         clear: false,
     });
 
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
         setInput(e.target.value);
     };
 
@@ -62,7 +63,7 @@ export const QueuePage: FC = () => {
         <SolutionLayout title="Очередь">
             <div className={style.form}>
                 <Input
-                    maxLength={4}
+                    maxLength={maxLength}
                     onChange={onChange}
                     value={input}
                     disabled={queue.isFull()}
@@ -78,7 +79,7 @@ export const QueuePage: FC = () => {
                 <Button
                     onClick={deleteElement}
                     isLoader={loader.delete}
-                    disabled={queue.isEmpty()}
+                    disabled={currIndex === queue.getTail() || currIndex === queue.getHead() || queue.isEmpty()}
                     text="Удалить"
                     type="button"
                 />
@@ -86,7 +87,7 @@ export const QueuePage: FC = () => {
                     onClick={clearElements}
                     extraClass={style.button}
                     isLoader={loader.clear}
-                    disabled={queue.isEmpty()}
+                    disabled={currIndex === queue.getTail() || currIndex === queue.getHead() || queue.isEmpty()}
                     text="Очистить"
                     type="button"
                 />

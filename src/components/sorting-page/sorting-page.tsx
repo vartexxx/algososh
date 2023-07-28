@@ -9,31 +9,10 @@ import {Column} from "../ui/column/column";
 import {RadioInput} from "../ui/radio-input/radio-input";
 import {SolutionLayout} from "../ui/solution-layout/solution-layout";
 import styles from './sorting-page.module.css';
+import {randomArr, swap} from "./utils";
 
 
 export const SortingPage: FC = () => {
-    const randomArr = (): SortTypes[] => {
-        const minLen: 3 = 3;
-        const maxLen: 17 = 17;
-        const len: number = Math.floor(Math.random() * (maxLen - minLen + 1)) + minLen;
-        const arr: SortTypes[] = [];
-        for (let i: number = 0; i < len; i++) {
-            const randInt: number = Math.floor(Math.random() * 101);
-            arr.push({ index: randInt, state: ElementStates.Default });
-        }
-        return arr;
-    }
-    const swap = (
-        value: SortTypes[],
-        firstItem: number,
-        secondItem: number
-    ): [SortTypes, SortTypes] => {
-        return ([value[firstItem], value[secondItem]] = [
-            value[secondItem],
-            value[firstItem],
-        ]);
-    };
-
     const [radioSelect, setRadioSelect] = useState('select');
     const [loader, setLoader] = useState({
         ascending: false,

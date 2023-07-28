@@ -12,6 +12,7 @@ import style from "./stack-page.module.css";
 
 
 export const StackPage: FC = () => {
+    const maxLength: 4 = 4;
     const [input, setInput] = useState('');
     const [currIndex, setCurrIndex] = useState(0);
     const [loader, setLoader] = useState({
@@ -27,6 +28,7 @@ export const StackPage: FC = () => {
 
     const addElement = async (): Promise<void> => {
         setLoader({ ...loader, add: true });
+        setCurrIndex(0);
         stack.push(input);
         setInput('');
         setArray([...stack.getElements()]);
@@ -37,8 +39,9 @@ export const StackPage: FC = () => {
 
     const deleteElement = async (): Promise<void> => {
         setLoader({ ...loader, delete: true });
-        setCurrIndex(stack.getSize() - 1);
+        setCurrIndex(0);
         await setDelay(SHORT_DELAY_IN_MS);
+        setCurrIndex(stack.getSize() - 1);
         stack.pop();
         setArray([...stack.getElements()]);
         setLoader({ ...loader, delete: false });
@@ -46,10 +49,10 @@ export const StackPage: FC = () => {
 
     const clearElements = async (): Promise<void> => {
         setLoader({ ...loader, clear: true });
+        setCurrIndex(0);
         await setDelay(SHORT_DELAY_IN_MS);
         stack.clear();
         setArray([...stack.getElements()]);
-        setCurrIndex(0)
         setLoader({ ...loader, clear: false });
     };
 
@@ -57,7 +60,7 @@ export const StackPage: FC = () => {
         <SolutionLayout title="Стек">
             <div className={style.form}>
                 <Input
-                    maxLength={4}
+                    maxLength={maxLength}
                     onChange={onChange}
                     value={input}
                     isLimitText

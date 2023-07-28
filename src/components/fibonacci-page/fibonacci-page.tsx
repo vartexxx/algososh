@@ -7,9 +7,11 @@ import {Circle} from "../ui/circle/circle";
 import {Input} from "../ui/input/input";
 import {SolutionLayout} from "../ui/solution-layout/solution-layout";
 import styles from './fibonacci-page.module.css';
+import {solve} from "./utils";
 
 
 export const FibonacciPage: FC = () => {
+    const [maxInput, minInput]: number[] = [19, 1];
     const [input, setInput] = useState('');
     const [loader, setLoader] = useState(false);
     const [array, setArray] = useState<Array<number>>();
@@ -20,13 +22,6 @@ export const FibonacciPage: FC = () => {
     const onSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
         setLoader(true);
-        const solve = (n: number): number[] => {
-            let arr: number[] = [1, 1];
-            for (let i: number = 2; i < n + 1; i++) {
-                arr.push(arr[i - 2] + arr[i - 1]);
-            }
-            return arr;
-        };
         const data: number[] = solve(Number(input));
         for (let i: number = 0; i < data.length; i++) {
             await setDelay(SHORT_DELAY_IN_MS);
@@ -40,8 +35,8 @@ export const FibonacciPage: FC = () => {
         <SolutionLayout title="Последовательность Фибоначчи">
             <form className={styles.form} onSubmit={onSubmit}>
                 <Input
-                    max={19}
-                    min={1}
+                    max={Number(maxInput)}
+                    min={Number(minInput)}
                     type={'number'}
                     onChange={onChange}
                     value={input}
@@ -52,7 +47,7 @@ export const FibonacciPage: FC = () => {
                     isLoader={loader}
                     type={"submit"}
                     disabled={
-                        !input || Number(input) > 19 || Number(input) < 1
+                        !input || Number(input) > Number(maxInput) || Number(input) < Number(minInput)
                     }
                 />
             </form>

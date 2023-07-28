@@ -13,6 +13,7 @@ import style from "./list-page.module.css";
 
 
 export const ListPage: FC = () => {
+    const [minValue, maxValue, maxLength]: number[] = [0, 7, 4]
     const setCircleState = (
         index: number,
         circleState: CircleState
@@ -45,7 +46,7 @@ export const ListPage: FC = () => {
         index: "",
     });
 
-    const addToFront = async () => {
+    const addToFront = async (): Promise<void> => {
         setLoader({ ...loader, addToHead: true, disabled: true });
         setCurrentValue(inputValue.value);
         setCircleIndex(0);
@@ -61,7 +62,7 @@ export const ListPage: FC = () => {
         setLoader({ ...loader, addToHead: false, disabled: false });
     };
 
-    const addToEnd = async () => {
+    const addToEnd = async (): Promise<void> => {
         setLoader({ ...loader, addToTail: true, disabled: true });
         setCurrentValue(inputValue.value);
         setCircleIndex(linkedList.getSize() - 1);
@@ -77,7 +78,7 @@ export const ListPage: FC = () => {
         setLoader({ ...loader, addToTail: false, disabled: false });
     };
 
-    const deleteAtFront = async () => {
+    const deleteAtFront = async (): Promise<void> => {
         setLoader({ ...loader, deleteInHead: true, disabled: true });
         setCurrentValue(linkedList.getFirst()!.val);
         linkedList.getFirst()!.val = "";
@@ -92,7 +93,7 @@ export const ListPage: FC = () => {
         setLoader({ ...loader, deleteInHead: false, disabled: false });
     };
 
-    const deleteAtEnd = async () => {
+    const deleteAtEnd = async (): Promise<void> => {
         setLoader({ ...loader, deleteInTail: true, disabled: true });
         setCurrentValue(linkedList.getLast()!.val);
         linkedList.getLast()!.val = "";
@@ -107,9 +108,9 @@ export const ListPage: FC = () => {
         setLoader({ ...loader, deleteInTail: false, disabled: false });
     };
 
-    const addAtIndex = async () => {
+    const addAtIndex = async (): Promise<void> => {
         setLoader({ ...loader, addToIndex: true, disabled: true });
-        for (let i = -1; i <= Number(inputValue.index); i++) {
+        for (let i: number = -1; i <= Number(inputValue.index); i++) {
             setCurrentValue(inputValue.value);
             setPosition(CirclePosition.head);
             setCircleIndex(i);
@@ -126,9 +127,9 @@ export const ListPage: FC = () => {
         setLoader({ ...loader, addToIndex: false, disabled: false });
     };
 
-    const deleteAtIndex = async () => {
+    const deleteAtIndex = async (): Promise<void> => {
         setLoader({ ...loader, deleteToIndex: true, disabled: true });
-        for (let i = 0; i <= Number(inputValue.index); i++) {
+        for (let i: number = 0; i <= Number(inputValue.index); i++) {
             setState({ ...state, changingIndex: i });
             await setDelay(SHORT_DELAY_IN_MS);
         }
@@ -144,36 +145,35 @@ export const ListPage: FC = () => {
         await setDelay(SHORT_DELAY_IN_MS);
         setArray([...linkedList.getArray()]);
         setState({ ...state, changingIndex: -1 });
+        setCircleIndex(-1);
         setInputValue({ value: "", index: "" });
         setLoader({ ...loader, deleteToIndex: false, disabled: false });
     };
 
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
         setInputValue({ ...inputValue, [e.target.name]: e.target.value });
     };
 
-    const showHeadCircle = (index: number) => {
+    const showHeadCircle = (index: number): JSX.Element | string | undefined => {
         if (circleIndex === index && position === CirclePosition.head) {
             return (
                 <Circle isSmall letter={currentValue} state={ElementStates.Changing} />
             );
         } else if (index === 0) {
             return "head";
-        } else {
-            return undefined;
         }
+        return undefined;
     };
 
-    const showTailCircle = (index: number) => {
+    const showTailCircle = (index: number): JSX.Element | string | undefined => {
         if (circleIndex === index && position === CirclePosition.tail) {
             return (
                 <Circle isSmall letter={currentValue} state={ElementStates.Changing} />
             );
         } else if (index === array.length - 1) {
             return "tail";
-        } else {
-            return undefined;
         }
+        return undefined;
     };
 
     return (
@@ -181,7 +181,7 @@ export const ListPage: FC = () => {
             <div className={style.form}>
                 <div className={style.form__container}>
                     <Input
-                        maxLength={4}
+                        maxLength={maxLength}
                         isLimitText
                         placeholder="Введите значение"
                         name="value"
@@ -194,7 +194,7 @@ export const ListPage: FC = () => {
                         extraClass={`${style.button} ${style.button_size_small}`}
                         onClick={addToFront}
                         disabled={
-                            !!!inputValue.value || loader.disabled || array.length === 7
+                            !inputValue.value || loader.disabled || array.length === Number(maxValue)
                         }
                         isLoader={loader.addToHead}
                     />
@@ -204,7 +204,7 @@ export const ListPage: FC = () => {
                         extraClass={`${style.button} ${style.button_size_small}`}
                         onClick={addToEnd}
                         disabled={
-                            !!!inputValue.value || loader.disabled || array.length === 7
+                            !inputValue.value || loader.disabled || array.length === Number(maxValue)
                         }
                         isLoader={loader.addToTail}
                     />
@@ -213,7 +213,7 @@ export const ListPage: FC = () => {
                         text="Удалить из head"
                         extraClass={`${style.button} ${style.button_size_small}`}
                         onClick={deleteAtFront}
-                        disabled={!!!array || loader.disabled || array.length === 0}
+                        disabled={!array || loader.disabled || array.length === Number(minValue)}
                         isLoader={loader.deleteInHead}
                     />
                     <Button
@@ -221,7 +221,7 @@ export const ListPage: FC = () => {
                         text="Удалить из tail"
                         extraClass={`${style.button} ${style.button_size_small}`}
                         onClick={deleteAtEnd}
-                        disabled={!!!array || loader.disabled || array.length === 0}
+                        disabled={!array || loader.disabled || array.length === Number(minValue)}
                         isLoader={loader.deleteInTail}
                     />
                 </div>
@@ -230,7 +230,7 @@ export const ListPage: FC = () => {
                         type="number"
                         placeholder="Введите индекс"
                         name="index"
-                        min={0}
+                        min={minValue}
                         max={array.length - 1}
                         value={inputValue.index}
                         onChange={onChange}
@@ -241,10 +241,10 @@ export const ListPage: FC = () => {
                         extraClass={`${style.button} ${style.button_size_large}`}
                         onClick={addAtIndex}
                         disabled={
-                            !!!(inputValue.index && inputValue.value) ||
+                            !(inputValue.index && inputValue.value) ||
                             loader.disabled ||
                             Number(inputValue.index) > array.length - 1 ||
-                            Number(inputValue.index) < 0
+                            Number(inputValue.index) < Number(minValue)
                         }
                         isLoader={loader.addToIndex}
                     />
@@ -254,17 +254,17 @@ export const ListPage: FC = () => {
                         extraClass={`${style.button} ${style.button_size_large}`}
                         onClick={deleteAtIndex}
                         disabled={
-                            !!!inputValue.index ||
+                            !inputValue.index ||
                             loader.disabled ||
                             Number(inputValue.index) > array.length - 1 ||
-                            Number(inputValue.index) < 0
+                            Number(inputValue.index) < Number(minValue)
                         }
                         isLoader={loader.deleteToIndex}
                     />
                 </div>
             </div>
             <ul className={style.symbolList}>
-                {array?.map((item, index) => {
+                {array ? array.map((item: NodeType<string>, index: number) => {
                     return (
                         <li className={style.symbolList__item} key={nanoid()}>
                             <Circle
@@ -275,10 +275,10 @@ export const ListPage: FC = () => {
                                 head={showHeadCircle(index)}
                                 tail={showTailCircle(index)}
                             />
-                            {index !== array.length - 1 && <ArrowIcon />}
+                            {index !== array.length - 1 && <ArrowIcon/>}
                         </li>
                     );
-                })}
+                }) : undefined}
             </ul>
         </SolutionLayout>
     );
