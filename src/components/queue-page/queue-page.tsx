@@ -12,8 +12,10 @@ import {queue} from "./Queue";
 import style from "./queue-page.module.css";
 
 
+const MAX_LENGTH: 4 = 4;
+
+
 export const QueuePage: FC = () => {
-    const maxLength: 4 = 4;
     const [input, setInput] = useState('');
     const [array, setArray] = useState<string[]>(queue.getElements());
     const [currIndex, setCurrIndex] = useState<number | null>(null);
@@ -63,7 +65,7 @@ export const QueuePage: FC = () => {
         <SolutionLayout title="Очередь">
             <div className={style.form}>
                 <Input
-                    maxLength={maxLength}
+                    maxLength={MAX_LENGTH}
                     onChange={onChange}
                     value={input}
                     disabled={queue.isFull()}

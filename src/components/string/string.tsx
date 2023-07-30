@@ -10,8 +10,10 @@ import {SolutionLayout} from "../ui/solution-layout/solution-layout";
 import style from "./string.module.css";
 
 
+const MAX_INPUT: 11 = 11;
+
+
 export const StringComponent: FC = () => {
-    const maxInput: 11 = 11
     const swap = (
         value: ElementTypes[],
         firstItem: number,
@@ -62,7 +64,7 @@ export const StringComponent: FC = () => {
         <SolutionLayout title="Строка" extraClass={style.container}>
             <form className={style.form} onSubmit={onSubmit}>
                 <Input
-                    maxLength={maxInput}
+                    maxLength={MAX_INPUT}
                     isLimitText
                     onChange={onChange}
                     value={input}

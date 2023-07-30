@@ -7,11 +7,13 @@ import {Circle} from "../ui/circle/circle";
 import {Input} from "../ui/input/input";
 import {SolutionLayout} from "../ui/solution-layout/solution-layout";
 import styles from './fibonacci-page.module.css';
-import {solve} from "./utils";
+import {getFibonacciNumbers} from "./utils";
+
+
+const [MAX_INPUT_VALUE, MIN_INPUT_VALUE]: number[] = [19, 1]
 
 
 export const FibonacciPage: FC = () => {
-    const [maxInput, minInput]: number[] = [19, 1];
     const [input, setInput] = useState('');
     const [loader, setLoader] = useState(false);
     const [array, setArray] = useState<Array<number>>();
@@ -22,7 +24,7 @@ export const FibonacciPage: FC = () => {
     const onSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
         setLoader(true);
-        const data: number[] = solve(Number(input));
+        const data: number[] = getFibonacciNumbers(Number(input));
         for (let i: number = 0; i < data.length; i++) {
             await setDelay(SHORT_DELAY_IN_MS);
             setArray(data.slice(0, i + 1));
@@ -35,8 +37,8 @@ export const FibonacciPage: FC = () => {
         <SolutionLayout title="Последовательность Фибоначчи">
             <form className={styles.form} onSubmit={onSubmit}>
                 <Input
-                    max={Number(maxInput)}
-                    min={Number(minInput)}
+                    max={Number(MAX_INPUT_VALUE)}
+                    min={Number(MIN_INPUT_VALUE)}
                     type={'number'}
                     onChange={onChange}
                     value={input}
@@ -47,7 +49,7 @@ export const FibonacciPage: FC = () => {
                     isLoader={loader}
                     type={"submit"}
                     disabled={
-                        !input || Number(input) > Number(maxInput) || Number(input) < Number(minInput)
+                        !input || Number(input) > Number(MAX_INPUT_VALUE) || Number(input) < Number(MIN_INPUT_VALUE)
                     }
                 />
             </form>

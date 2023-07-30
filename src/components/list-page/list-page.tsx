@@ -12,8 +12,10 @@ import {linkedList, NodeType} from "./List";
 import style from "./list-page.module.css";
 
 
+const [MIN_INPUT_VALUE, MAX_INPUT_VALUE, MAX_LENGTH]: number[] = [0, 7, 4];
+
+
 export const ListPage: FC = () => {
-    const [minValue, maxValue, maxLength]: number[] = [0, 7, 4]
     const setCircleState = (
         index: number,
         circleState: CircleState
@@ -181,7 +183,7 @@ export const ListPage: FC = () => {
             <div className={style.form}>
                 <div className={style.form__container}>
                     <Input
-                        maxLength={maxLength}
+                        maxLength={MAX_LENGTH}
                         isLimitText
                         placeholder="Введите значение"
                         name="value"
@@ -194,7 +196,7 @@ export const ListPage: FC = () => {
                         extraClass={`${style.button} ${style.button_size_small}`}
                         onClick={addToFront}
                         disabled={
-                            !inputValue.value || loader.disabled || array.length === Number(maxValue)
+                            !inputValue.value || loader.disabled || array.length === Number(MAX_INPUT_VALUE)
                         }
                         isLoader={loader.addToHead}
                     />
@@ -204,7 +206,7 @@ export const ListPage: FC = () => {
                         extraClass={`${style.button} ${style.button_size_small}`}
                         onClick={addToEnd}
                         disabled={
-                            !inputValue.value || loader.disabled || array.length === Number(maxValue)
+                            !inputValue.value || loader.disabled || array.length === Number(MAX_INPUT_VALUE)
                         }
                         isLoader={loader.addToTail}
                     />
@@ -213,7 +215,7 @@ export const ListPage: FC = () => {
                         text="Удалить из head"
                         extraClass={`${style.button} ${style.button_size_small}`}
                         onClick={deleteAtFront}
-                        disabled={!array || loader.disabled || array.length === Number(minValue)}
+                        disabled={!array || loader.disabled || array.length === Number(MIN_INPUT_VALUE)}
                         isLoader={loader.deleteInHead}
                     />
                     <Button
@@ -221,7 +223,7 @@ export const ListPage: FC = () => {
                         text="Удалить из tail"
                         extraClass={`${style.button} ${style.button_size_small}`}
                         onClick={deleteAtEnd}
-                        disabled={!array || loader.disabled || array.length === Number(minValue)}
+                        disabled={!array || loader.disabled || array.length === Number(MIN_INPUT_VALUE)}
                         isLoader={loader.deleteInTail}
                     />
                 </div>
@@ -230,7 +232,7 @@ export const ListPage: FC = () => {
                         type="number"
                         placeholder="Введите индекс"
                         name="index"
-                        min={minValue}
+                        min={MIN_INPUT_VALUE}
                         max={array.length - 1}
                         value={inputValue.index}
                         onChange={onChange}
@@ -244,7 +246,7 @@ export const ListPage: FC = () => {
                             !(inputValue.index && inputValue.value) ||
                             loader.disabled ||
                             Number(inputValue.index) > array.length - 1 ||
-                            Number(inputValue.index) < Number(minValue)
+                            Number(inputValue.index) < Number(MIN_INPUT_VALUE)
                         }
                         isLoader={loader.addToIndex}
                     />
@@ -257,7 +259,7 @@ export const ListPage: FC = () => {
                             !inputValue.index ||
                             loader.disabled ||
                             Number(inputValue.index) > array.length - 1 ||
-                            Number(inputValue.index) < Number(minValue)
+                            Number(inputValue.index) < Number(MIN_INPUT_VALUE)
                         }
                         isLoader={loader.deleteToIndex}
                     />
