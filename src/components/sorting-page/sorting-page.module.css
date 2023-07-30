@@ -1,0 +1,36 @@
+.form {
+    margin: 0 auto;
+    max-width: 980px;
+    display: flex;
+    gap: 52px;
+}
+
+.radio {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.buttons > button:last-child {
+    margin-left: 80px;
+}
+
+.button {
+    width: 205px;
+}
+
+.list {
+    margin: 0;
+    height: 340px;
+    padding: 48px 0 0 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 10px;
+}
