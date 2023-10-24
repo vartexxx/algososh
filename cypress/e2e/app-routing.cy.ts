@@ -1,16 +1,10 @@
-import {
-    BASE_URL,
-    MAIN_PAGE,
-} from "../../src/constants/test-selectors";
-
-
 describe('Приложение корректно отрабатывает переходы по страницам', (): void => {
     beforeEach((): void => {
-        cy.visit(MAIN_PAGE)
+        cy.visit('http://localhost:3000')
     })
     afterEach((): void => {
         cy.get('p').contains('К оглавлению').click();
-        cy.url().should('include', BASE_URL);
+        cy.url().should('include', '/');
     })
     it('Открыта страница с алгоритмом разворота строки по адресу /recursion', (): void => {
         cy.get('[data-testid="recursion"]').click();
