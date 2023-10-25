@@ -1,4 +1,4 @@
-import {DELAY_IN_MS} from "../../src/constants/delays";
+import {SHORT_DELAY_IN_MS} from "../../src/constants/delays";
 
 
 describe('Приложение корректно отрабатывает компонент StringComponent', (): void => {
@@ -40,7 +40,7 @@ describe('Приложение корректно отрабатывает ко�
             .find('[class^="circle_circle__"]')
             .should('have.css', 'border', '4px solid rgb(127, 224, 81)');
         //
-        cy.wait(DELAY_IN_MS);
+        cy.wait(SHORT_DELAY_IN_MS);
         /*Итоговая проверка анимаций*/
         cy.get('[class^="circle_content__"]')
             .eq(0)
