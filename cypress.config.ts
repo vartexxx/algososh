@@ -1,10 +1,12 @@
-import { defineConfig } from "cypress";
+import {defineConfig} from "cypress";
+import {BASE_URL} from "./src/constants/routes";
+
 
 export default defineConfig({
   e2e: {
-    setupNodeEvents(on, config) {
+    setupNodeEvents(on: any, config: any): void {
       // implement node event listeners here
     },
-    baseUrl: 'http://localhost:3000',
+    baseUrl: BASE_URL,
   },
 });

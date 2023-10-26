@@ -2,6 +2,7 @@ import React from "react";
 import Marquee from "react-fast-marquee";
 import {Link} from "react-router-dom";
 import styles from "./main-page.module.css";
+import {FIBONACCI_PAGE, LIST_PAGE, QUEUE_PAGE, SORTING_PAGE, STACK_PAGE, STRING_PAGE} from "../../constants/routes";
 
 
 interface MainPageProps {
@@ -22,22 +23,22 @@ export const MainPage: React.FC<MainPageProps> = ({ extraClass = "" }) => {
           </p>
         </div>
         <div className={styles.cards_box}>
-          <Link className={styles.link} data-testid={'recursion'} to="/recursion">
+          <Link className={styles.link} data-testid={'recursion'} to={STRING_PAGE}>
             <div className={`${styles.card} ${styles.string}`} />
           </Link>
-          <Link className={styles.link} data-testid={'fibonacci'} to="/fibonacci">
+          <Link className={styles.link} data-testid={'fibonacci'} to={FIBONACCI_PAGE}>
             <div className={`${styles.card} ${styles.fibonacci}`} />
           </Link>
-          <Link className={styles.link} data-testid={'sorting'} to="/sorting">
+          <Link className={styles.link} data-testid={'sorting'} to={SORTING_PAGE}>
             <div className={`${styles.card} ${styles.arr}`} />
           </Link>
-          <Link className={styles.link} data-testid={'stack'} to="/stack">
+          <Link className={styles.link} data-testid={'stack'} to={STACK_PAGE}>
             <div className={`${styles.card} ${styles.stack}`} />
           </Link>
-          <Link className={styles.link} data-testid={'queue'} to="/queue">
+          <Link className={styles.link} data-testid={'queue'} to={QUEUE_PAGE}>
             <div className={`${styles.card} ${styles.queue}`} />
           </Link>
-          <Link className={styles.link} data-testid={'list'} to="/list">
+          <Link className={styles.link} data-testid={'list'} to={LIST_PAGE}>
             <div className={`${styles.card} ${styles.list}`} />
           </Link>
         </div>

@@ -8,24 +8,31 @@ import {StringComponent} from "../string/string";
 import {SortingPage} from "../sorting-page/sorting-page";
 import {StackPage} from "../stack-page/stack-page";
 import styles from './app.module.css';
+import {
+    FIBONACCI_PAGE,
+    LIST_PAGE,
+    MAIN_PAGE,
+    QUEUE_PAGE,
+    SORTING_PAGE,
+    STACK_PAGE,
+    STRING_PAGE
+} from "../../constants/routes";
 
 
-function App() {
+export const App = () => {
     return (
         <div className={styles.app}>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<MainPage />} />
-                    <Route path="/recursion" element={<StringComponent />} />
-                    <Route path="/fibonacci" element={<FibonacciPage />} />
-                    <Route path="/sorting" element={<SortingPage />} />
-                    <Route path="/stack" element={<StackPage />} />
-                    <Route path="/queue" element={<QueuePage />} />
-                    <Route path="/list" element={<ListPage />} />
+                    <Route path={MAIN_PAGE} element={<MainPage />} />
+                    <Route path={STRING_PAGE} element={<StringComponent />} />
+                    <Route path={FIBONACCI_PAGE} element={<FibonacciPage />} />
+                    <Route path={SORTING_PAGE} element={<SortingPage />} />
+                    <Route path={STACK_PAGE} element={<StackPage />} />
+                    <Route path={QUEUE_PAGE} element={<QueuePage />} />
+                    <Route path={LIST_PAGE} element={<ListPage />} />
                 </Routes>
             </BrowserRouter>
         </div>
     );
 }
-
-export default App;
